@@ -1,0 +1,118 @@
+install.packages("patchwork")
+library(patchwork)
+
+# Set max depth to fix y-axis range
+y_limit <- c(0, max(df.newSpeciesDepth$DepthRangeDeep, na.rm = TRUE))
+
+make_plot <- function(data, col, col_label, fill = NULL) {
+  p <- ggplot(data %>% filter(Color == col), aes(x = FBname, y = DepthRangeDeep))
+  
+  if (!is.null(fill)) {
+    p <- p + geom_point(fill = fill, color = "black", size = 1.5, alpha = 0.8, shape = 21)
+  } else {
+    p <- p + geom_point(color = col, size = 1.5, alpha = 0.8)
+  }
+  
+  p + 
+    labs(title = paste(col_label, "Fish")) +
+    ylim(y_limit) +
+    theme_minimal(base_size = 11) +
+    theme(
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      plot.title = element_text(hjust = 0.5)
+    )
+}
+
+# Create individual plots
+plot_red    <- make_plot(df.newSpeciesDepth, "red", "Red", fill = "red")
+plot_orange <- make_plot(df.newSpeciesDepth, "orange", "Orange", fill = "orange")
+plot_yellow <- make_plot(df.newSpeciesDepth, "yellow", "Yellow", fill = "gold")
+plot_green  <- make_plot(df.newSpeciesDepth, "green", "Green", fill = "forestgreen")
+plot_blue   <- make_plot(df.newSpeciesDepth, "blue", "Blue", fill = "blue")
+plot_violet <- make_plot(df.newSpeciesDepth, "violet", "Violet", fill = "purple")
+
+# Combine using patchwork
+final_plot <- (plot_red | plot_orange | plot_yellow) /
+  (plot_green | plot_blue | plot_violet) +
+  plot_annotation(
+    title = "Depth Distribution of Fish by Body Color",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 14))
+  )
+
+final_plot
+
+
+
+
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+
+
+
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+
+# Load your data
+df.newSpeciesDepth <- read.csv("Desktop/thesis/mySpeciesExcel2.csv")
+
+# Filter relevant categories
+df.onlyYnewSpeciesDepth <- df.newSpeciesDepth %>%
+  mutate(DemersPelag = as.character(DemersPelag)) %>%
+  filter(DemersPelag %in% c("benthopelagic", "pelagic", "demersal", 
+                            "pelagic-neritic", "bathypelagic", 
+                            "bathydemersal", "pelagic-oceanic")) %>%
+  filter(Color %in% c("red", "orange", "yellow", "green", "blue", "violet"))
+
+# Set fixed y-axis range for consistent scaling
+y_limit <- c(0, max(df.onlyYnewSpeciesDepth$DepthRangeDeep, na.rm = TRUE))
+
+# Function to generate consistent plots
+make_plot <- function(data, col, col_label, fill = NULL) {
+  p <- ggplot(data %>% filter(Color == col), aes(x = FBname, y = DepthRangeDeep))
+  
+  if (!is.null(fill)) {
+    p <- p + geom_point(fill = fill, color = "black", size = 1.5, alpha = 0.8, shape = 21)
+  } else {
+    p <- p + geom_point(color = col, size = 1.5, alpha = 0.8)
+  }
+  
+  p + 
+    labs(title = paste(col_label, "Fish")) +
+    ylim(y_limit) +
+    theme_minimal(base_size = 11) +
+    theme(
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      plot.title = element_text(hjust = 0.5, face = "bold")
+    )
+}
+
+# Create individual color plots
+plot_red    <- make_plot(df.onlyYnewSpeciesDepth, "red", "Red", fill = "red")
+plot_orange <- make_plot(df.onlyYnewSpeciesDepth, "orange", "Orange", fill = "orange")
+plot_yellow <- make_plot(df.onlyYnewSpeciesDepth, "yellow", "Yellow", fill = "gold")
+plot_green  <- make_plot(df.onlyYnewSpeciesDepth, "green", "Green", fill = "forestgreen")
+plot_blue   <- make_plot(df.onlyYnewSpeciesDepth, "blue", "Blue", fill = "blue")
+plot_violet <- make_plot(df.onlyYnewSpeciesDepth, "violet", "Violet", fill = "purple")
+
+# Combine all plots in a grid using patchwork
+final_plot <- (plot_red | plot_orange | plot_yellow) /
+  (plot_green | plot_blue | plot_violet) +
+  plot_annotation(
+    title = "Depth Distribution of Fish by Body Color",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))
+  )
+
+# Display the plot
+final_plot
+
