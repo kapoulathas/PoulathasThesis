@@ -1,0 +1,554 @@
+library(ggplot2)
+library(dplyr)
+
+df.newSpeciesDepth = read.csv(file = 'Desktop/thesis/mySpeciesExcel2.csv')
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredRED <- df.newSpeciesDepth %>% filter(Color == "red")
+
+# Create the plot
+ggplot(df_filteredRED, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "red", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Fish with Red Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredORANGE <- df.newSpeciesDepth %>% filter(Color == "orange")
+
+# Create the plot
+ggplot(df_filteredORANGE, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "orange", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with Orange Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredYELLOW <- df.newSpeciesDepth %>% filter(Color == "yellow")
+
+# Create the plot
+ggplot(df_filteredYELLOW, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(fill = "yellow", color = "black", pch = 21, size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with Yellow Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredGREEN <- df.newSpeciesDepth %>% filter(Color == "green")
+
+# Create the plot
+ggplot(df_filteredGREEN, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "forestgreen", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with Green Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredBLUE <- df.newSpeciesDepth %>% filter(Color == "blue")
+
+# Create the plot
+ggplot(df_filteredBLUE, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "blue", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with  Blue Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredViolet <- df.newSpeciesDepth %>% filter(Color == "violet")
+ 
+
+# Create the plot
+ggplot(df_filteredViolet, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "purple", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with Violet Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+# ---------------------------------------------------------------------------- #
+# Summary Statistics
+
+
+summary_red <- df.newSpeciesDepth %>%
+  filter(Color == "red") %>%
+  summarize(
+    count = n(),  # Number of red fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_red
+
+
+summary_orange <- df.newSpeciesDepth %>%
+  filter(Color == "orange") %>%
+  summarize(
+    count = n(),  # Number of orange fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_orange
+
+
+
+summary_yellow <- df.newSpeciesDepth %>%
+  filter(Color == "yellow") %>%
+  summarize(
+    count = n(),  # Number of yellow fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_yellow
+
+
+
+summary_green <- df.newSpeciesDepth %>%
+  filter(Color == "green") %>%
+  summarize(
+    count = n(),  # Number of green fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_green
+
+
+
+summary_blue <- df.newSpeciesDepth %>%
+  filter(Color == "blue") %>%
+  summarize(
+    count = n(),  # Number of blue fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_blue
+
+
+
+
+summary_violet <- df.newSpeciesDepth %>%
+  filter(Color == "violet") %>%
+  summarize(
+    count = n(),  # Number of purple fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_violet
+
+
+
+
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# BoxPlots
+
+
+View(df.newSpeciesDepth)
+
+# Define the color order following ROYGBIV
+rainbow_order <- c("red", "orange", "yellow", "green", "blue", "violet")
+
+# Ensure Color is a factor with specified levels to control the order
+df.newSpeciesDepth$Color <- factor(df.newSpeciesDepth$Color, levels = rainbow_order, ordered = TRUE)
+
+
+
+ggplot(na.omit(df.newSpeciesDepth), aes(x = Color, y = DepthRangeDeep, fill = Color)) +
+  geom_boxplot() +
+  coord_cartesian(ylim = c(0, 800)) +  # Adjust as needed
+  scale_y_continuous(breaks = seq(0, 800, by = 100)) +  # Add ticks every 250 units
+  labs(title = "Depth Range by Fish Color",
+       x = "Fish Color",
+       y = "Depth Range Deep") +
+  theme_minimal() +
+  scale_fill_manual(values = c("red" = "red", "orange" = "orange", "yellow" = "yellow", 
+                               "green" = "green", "blue" = "blue", "violet" = "purple"))
+
+
+
+
+
+
+kruskal.test(DepthRangeDeep ~ Color, data = df.newSpeciesDepth)
+
+# ---------------------------------------------------------------------------- #
+# 
+
+
+library(dplyr)
+library(ggplot2)
+
+# Depth thresholds
+color_thresholds <- data.frame(
+  Color = c("red", "orange", "yellow", "green", "blue", "purple", "cyan"),
+  threshold = c(18.75, 34.375, 62.5, 125, 112.5, 43.75, 200),
+  stringsAsFactors = FALSE  # to avoid auto-factor in older R versions
+)
+
+# Make sure color_thresholds$Color is a factor with the same levels
+rainbow_order <- c("red", "orange", "yellow", "green", "blue", "purple", "pink", "cyan")
+color_thresholds$Color <- factor(color_thresholds$Color, levels = rainbow_order, ordered = TRUE)
+
+# Read your main data
+df.newSpeciesDepth <- read.csv("Desktop/thesis/mySpeciesExcel.csv")
+df.newSpeciesDepth$Color <- factor(df.newSpeciesDepth$Color, levels = rainbow_order, ordered = TRUE)
+
+# Join thresholds
+df.newSpeciesDepth <- df.newSpeciesDepth %>%
+  left_join(color_thresholds, by = "Color")
+
+# Plot
+ggplot(na.omit(df.newSpeciesDepth), aes(x = Color, y = DepthRangeDeep, fill = Color)) +
+  geom_boxplot() +
+  # Horizontal segments for each color's threshold
+  geom_segment(
+    data = color_thresholds,
+    aes(
+      x = as.numeric(Color) - 0.4,
+      xend = as.numeric(Color) + 0.4,
+      y = threshold,
+      yend = threshold,
+      color = Color
+    ),
+    inherit.aes = FALSE,
+    size = 1
+  ) +
+  scale_x_discrete(limits = rainbow_order) +  # enforce x-axis order if needed
+  coord_cartesian(ylim = c(0, 800)) +
+  scale_y_continuous(breaks = seq(0, 800, by = 100)) +
+  labs(
+    title = "Depth Range by Fish Color",
+    x = "Fish Color",
+    y = "Depth Range Deep"
+  ) +
+  theme_minimal() +
+  # Match fill and line colors to factor levels
+  scale_fill_manual(values = c(
+    "red" = "red", "orange" = "orange", "yellow" = "yellow",
+    "green" = "green", "blue" = "blue", "purple" = "purple",
+    "pink" = "hotpink", "cyan" = "cyan"
+  )) +
+  scale_color_manual(values = c(
+    "red" = "maroon1", "orange" = "maroon1", "yellow" = "maroon1",
+    "green" = "maroon1", "blue" = "maroon1", "purple" = "maroon1",
+    "pink" = "maroon1", "cyan" = "maroon1"
+  ))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+df.newNewSpeciesDepth = read.csv(file = 'Desktop/thesis/mySpeciesExcel2.csv')
+
+
+df.onlyYnewSpeciesDepth = df.newNewSpeciesDepth %>%
+  mutate(DemersPelag = as.character(DemersPelag)) %>%  # Ensure it's not a factor
+  filter(DemersPelag %in% c("benthopelagic", "pelagic", "demersal", 
+                            "pelagic-neritic", "bathypelagic", "bathydemersal", "pelagic-oceanic"))
+
+
+View(df.onlyYnewSpeciesDepth)
+View(df.newNewSpeciesDepth)
+##
+# Assuming your data is stored in a dataframe called df
+df_filteredRED <- df.onlyYnewSpeciesDepth %>% filter(Color == "red")
+
+# Create the plot
+ggplot(df_filteredRED, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "red", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Fish with Red Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+# Assuming your data is stored in a dataframe called df
+df_filteredORANGE <- df.onlyYnewSpeciesDepth %>% filter(Color == "orange")
+
+# Create the plot
+ggplot(df_filteredORANGE, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "orange", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with Orange Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredYELLOW <- df.onlyYnewSpeciesDepth %>% filter(Color == "yellow")
+
+# Create the plot
+ggplot(df_filteredYELLOW, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(fill = "yellow", color = "black", pch = 21, size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with Yellow Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredGREEN <- df.onlyYnewSpeciesDepth %>% filter(Color == "green")
+
+# Create the plot
+ggplot(df_filteredGREEN, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "forestgreen", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with Green Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredBLUE <- df.onlyYnewSpeciesDepth %>% filter(Color == "blue")
+
+# Create the plot
+ggplot(df_filteredBLUE, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "blue", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with  Blue Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+
+
+
+# Assuming your data is stored in a dataframe called df
+df_filteredViolet <- df.onlyYnewSpeciesDepth %>% filter(Color == "violet")
+
+
+# Create the plot
+ggplot(df_filteredViolet, aes(x = FBname, y = DepthRangeDeep)) +
+  geom_point(color = "violet", size = 1) +  # Use red color for points
+  labs(x = "Fish", y = "Water Depth", title = "Occurrence of Fish with Violet Color") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis labels
+        axis.ticks.x = element_blank())  # Remove x-axis ticks
+##
+
+rainbow_order <- c("red", "orange", "yellow", "green", "blue", "violet")
+
+# Ensure Color is a factor with specified levels to control the order
+df.onlyYnewSpeciesDepth$Color <- factor(df.onlyYnewSpeciesDepth$Color, levels = rainbow_order, ordered = TRUE)
+
+# Plot the data
+ggplot(na.omit(df.onlyYnewSpeciesDepth), aes(x = Color, y = DepthRangeDeep, fill = Color)) +
+  geom_boxplot() +
+  coord_cartesian(ylim = c(0, 1200)) +  # Adjust as needed
+  scale_y_continuous(breaks = seq(0, 1200, by = 100)) +  # Add ticks every 100 units
+  labs(title = "Depth Range by Fish Color",
+       x = "Fish Color",
+       y = "Depth Range Deep") +
+  theme_minimal() +
+  scale_fill_manual(values = c("red" = "red", "orange" = "orange", "yellow" = "yellow", 
+                               "green" = "green", "blue" = "blue", "violet" = "purple"))
+
+
+summary(df.onlyYnewSpeciesDepth)
+
+
+
+
+kruskal.test(DepthRangeDeep ~ Color, data = df.onlyYnewSpeciesDepth)
+
+
+
+
+
+
+
+
+# Depth thresholds
+color_thresholds <- data.frame(
+  Color = c("red", "orange", "yellow", "green", "blue", "violet"),
+  threshold = c(18.75, 34.375, 62.5, 125, 112.5, 43.75),
+  stringsAsFactors = FALSE  # to avoid auto-factor in older R versions
+)
+
+# Make sure color_thresholds$Color is a factor with the same levels
+rainbow_order <- c("red", "orange", "yellow", "green", "blue", "violet")
+color_thresholds$Color <- factor(color_thresholds$Color, levels = rainbow_order, ordered = TRUE)
+
+# Read your main data
+df.onlyYnewSpeciesDepth$Color <- factor(df.onlyYnewSpeciesDepth$Color, levels = rainbow_order, ordered = TRUE)
+
+# Join thresholds
+df.onlyYnewSpeciesDepth <- df.onlyYnewSpeciesDepth %>%
+  left_join(color_thresholds, by = "Color")
+
+# Plot
+ggplot(na.omit(df.onlyYnewSpeciesDepth), aes(x = Color, y = DepthRangeDeep, fill = Color)) +
+  geom_boxplot() +
+  # Horizontal segments for each color's threshold
+  geom_segment(
+    data = color_thresholds,
+    aes(
+      x = as.numeric(Color) - 0.4,
+      xend = as.numeric(Color) + 0.4,
+      y = threshold,
+      yend = threshold,
+      color = Color
+    ),
+    inherit.aes = FALSE,
+    size = 1
+  ) +
+  scale_x_discrete(limits = rainbow_order) +  # enforce x-axis order if needed
+  coord_cartesian(ylim = c(0, 1200)) +
+  scale_y_continuous(breaks = seq(0, 1200, by = 100)) +
+  labs(
+    title = "Depth Range by Fish Color",
+    x = "Fish Color",
+    y = "Depth Range Deep"
+  ) +
+  theme_minimal() +
+  # Match fill and line colors to factor levels
+  scale_fill_manual(values = c(
+    "red" = "red", "orange" = "orange", "yellow" = "yellow",
+    "green" = "green", "blue" = "blue", "violet" = "violet"
+  )) +
+  scale_color_manual(values = c(
+    "red" = "maroon1", "orange" = "maroon1", "yellow" = "maroon1",
+    "green" = "maroon1", "blue" = "maroon1", "violet" = "maroon1"
+  ))
+
+
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
+# Summary Statistics
+
+
+summary_red <- df.onlyYnewSpeciesDepth %>%
+  filter(Color == "red") %>%
+  summarize(
+    count = n(),  # Number of red fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_red
+
+
+summary_orange <- df.onlyYnewSpeciesDepth %>%
+  filter(Color == "orange") %>%
+  summarize(
+    count = n(),  # Number of orange fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_orange
+
+
+
+summary_yellow <- df.onlyYnewSpeciesDepth %>%
+  filter(Color == "yellow") %>%
+  summarize(
+    count = n(),  # Number of yellow fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_yellow
+
+
+
+summary_green <- df.onlyYnewSpeciesDepth %>%
+  filter(Color == "green") %>%
+  summarize(
+    count = n(),  # Number of green fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_green
+
+
+
+summary_blue <- df.onlyYnewSpeciesDepth %>%
+  filter(Color == "blue") %>%
+  summarize(
+    count = n(),  # Number of blue fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_blue
+
+
+
+
+summary_violet <- df.onlyYnewSpeciesDepth %>%
+  filter(Color == "violet") %>%
+  summarize(
+    count = n(),  # Number of purple fish
+    mean_depth = mean(DepthRangeDeep, na.rm = TRUE),
+    median_depth = median(DepthRangeDeep, na.rm = TRUE),
+    min_depth = min(DepthRangeDeep, na.rm = TRUE),
+    max_depth = max(DepthRangeDeep, na.rm = TRUE)
+  )
+
+summary_violet
+
+
