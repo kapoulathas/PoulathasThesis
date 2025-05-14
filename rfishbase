@@ -1,0 +1,28 @@
+library(rfishbase)
+library(writexl)
+
+fb_tables()
+
+View(fb_tbl("species", "fishbase"))
+
+fish_data <- fb_tbl("species", "fishbase")
+
+View(fish_data)
+
+unique(my_fishies$DemersPelag) # Just to see what I'm working with :)
+
+my_fishies <- fish_data[c("Genus", "Species", "FBname", 
+                          "DepthRangeShallow", "DepthRangeDeep", 
+                          "DemersPelag")]
+
+new_species_depth_filtered <- na.omit(my_fishies)
+
+write_xlsx(new_species_depth_filtered, "mySpeciesExcel2.xlsx")
+
+
+View(my_fishies)
+
+View(new_species_depth_filtered)
+
+write_xlsx(new_species_depth_filtered, "mySpeciesExcel2.xlsx")
+
