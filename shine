@@ -1,0 +1,122 @@
+library(shiny)
+library(ggplot2)
+
+# Create the dataset in R
+df.shineData <- data.frame(
+  wavelength = c(200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380, 390,
+                 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540, 550, 560, 570, 580, 590,
+                 600, 610, 620, 630, 640, 650, 660, 670, 680, 690, 700, 710, 720, 730, 740, 750, 760, 770, 780, 790, 800),
+  I_o = c(0.006923707, 0.020296489, 0.047510172, 0.043975909, 0.042686246, 0.057021376, 0.10174365, 0.22096184, 0.078245831, 
+          0.30248902, 0.5542935, 0.50407444, 0.72267991, 1.1095939, 0.97688971, 0.81665421, 1.091514, 1.2839796, 1.0425685, 
+          1.2354437, 1.6150108, 1.7941612, 1.767421, 1.5339911, 1.8270546, 2.0112993, 2.0455811, 2.0719018, 2.1109184, 
+          1.9908521, 2.0132472, 2.0227066, 1.83116, 1.970544, 1.8363842, 1.8989145, 1.805099, 1.8745017, 1.834736, 
+          1.5632385, 1.7875786, 1.7356964, 1.6924146, 1.672297, 1.6313326, 1.5246814, 1.5333018, 1.5428912, 1.5068913, 
+          1.4827482, 1.4413842, 1.3908505, 1.342005, 1.2928197, 1.279984, 1.2511562, 1.2522649, 1.20285, 1.1811142, 
+          1.1662108, 1.1343862),
+  k_d = c(3.14, 2.05, 1.36, 0.968, 0.754, 0.588, 0.481, 0.3394, 0.306, 0.23, 0.154, 0.116, 0.0944, 0.0765, 0.0637, 0.053, 
+          0.0439, 0.0353, 0.0267, 0.0233, 0.0209, 0.0198, 0.0184, 0.0172, 0.017, 0.0168, 0.0176, 0.0175, 0.0194, 0.0212, 
+          0.0271, 0.037, 0.0489, 0.0519, 0.0568, 0.0648, 0.0717, 0.0807, 0.109, 0.158, 0.245, 0.29, 0.31, 0.32, 0.33, 
+          0.35, 0.4, 0.43, 0.45, 0.5, 0.65, 0.834, 1.17, 1.8, 2.38, 2.47, 2.55, 2.51, 2.36, 2.16, 2.07)
+)
+
+# View the dataset
+print(df.shineData)
+
+
+# Define UI
+ui <- fluidPage(
+  titlePanel("Light Intensity at Depth"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("depth", "Enter Max Depth (m):", value = 50, min = 0, step = 1),
+      selectInput("wavelength", "Select Wavelength (nm):",
+                  choices = df.shineData$wavelength,  # FIXED: Correct column name
+                  selected = df.shineData$wavelength[1]),
+      sliderInput("temperature", "Select Water Temperature (°C):",
+                  min = 0, max = 40, value = 20, step = 0.1),
+      numericInput("compareDepth", "Depth to Compare (m):", value = 20, min = 0, step = 1)
+    ),
+    mainPanel(
+      plotOutput("intensityPlot"),
+      textOutput("differenceOutput")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output) {
+  output$intensityPlot <- renderPlot({
+    # Get selected row based on wavelength (convert input to numeric)
+    selectedRow <- df.shineData[df.shineData$wavelength == as.numeric(input$wavelength), ]
+    
+    # Extract I_o and K_d
+    I_o <- selectedRow$I_o
+    baseline_K_d <- selectedRow$k_d  
+    
+    # Adjust K_d based on temperature
+    temp_factor <- 0.02 * (input$temperature - 20)  
+    adjusted_K_d <- baseline_K_d + temp_factor
+    
+    # Generate depth sequence
+    depth_seq <- seq(0, input$depth, length.out = 100)
+    
+    # Compute intensities
+    baseline_intensity <- I_o * exp(-baseline_K_d * depth_seq)   
+    adjusted_intensity <- I_o * exp(-adjusted_K_d * depth_seq)   
+    
+    # Create data frame for plotting
+    plot_data <- data.frame(
+      Depth = rep(depth_seq, 2),
+      Intensity = c(baseline_intensity, adjusted_intensity),
+      Curve = rep(c("Baseline", "Temperature-Adjusted"), each = length(depth_seq))
+    )
+    
+    # Create the plot
+    ggplot(plot_data, aes(x = Depth, y = Intensity, color = Curve)) +
+      geom_line(size = 1.2) +
+      scale_color_manual(values = c("Baseline" = "black", "Temperature-Adjusted" = "blue")) +
+      labs(title = paste("Light Intensity vs Depth for", input$wavelength, "nm"),
+           x = "Depth (m)",
+           y = "Light Intensity",
+           color = "Curve Type") +
+      theme_minimal()
+  })
+  
+  # Compute and display the difference in intensity at a specific depth
+  output$differenceOutput <- renderText({
+    selectedRow <- df.shineData[df.shineData$wavelength == as.numeric(input$wavelength), ]
+    
+    I_o <- selectedRow$I_o
+    baseline_K_d <- selectedRow$k_d
+    
+    temp_factor <- 0.02 * (input$temperature - 20)
+    adjusted_K_d <- baseline_K_d + temp_factor
+    
+    compareDepth <- input$compareDepth
+    baseline_intensity <- I_o * exp(-baseline_K_d * compareDepth)
+    adjusted_intensity <- I_o * exp(-adjusted_K_d * compareDepth)
+    
+    difference <- baseline_intensity - adjusted_intensity
+    
+    paste("At", compareDepth, "m depth, the difference in light intensity due to temperature change is:",
+          round(difference, 4))
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
+
+
+# ---------------------------------------------------------------------------- #
+install.packages("rsconnect")
+library(rsconnect)
+
+
+rsconnect::setAccountInfo(name='0cqnfa-katerina-poulathas',
+                          token='4425226C8EEDF74F9CFA3BDF376829DE',
+                          secret='o5HExJyIel3njsREN8Ma7nAWx9uQLG3lviaOBC66')
+library(rsconnect)
+rsconnect::deployApp("")
+
+
